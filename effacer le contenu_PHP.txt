@@ -1,0 +1,29 @@
+donc dans la page film list php dans la div où tu affiche tes films moi j'ai ajouté juste un X en haut pour pouvoir supprimer le film que je veux
+
+------------
+<a href="traitement.php?del=<?php echo $messages[$i]['id']; ?>" class="action">X</a>
+------------
+
+en suite la function de suppression est contenu dans le traitement.php
+
+et le code de suppression c'est:
+                                             else if(isset($_GET['del'])){                                                 // tu verifie 
+			$messages = file_get_contents('messages.json') ;  //tu recupere json
+			$messages = json_decode($messages, true) ;          // tu decode json et // si on laise que ($message) sans true on obtien un objet (true nous permet de convertir en tableau)  
+			
+			$verifier = array();                                                        //tu verifie tableau
+			for($i = 0; $i<count($messages) ; $i++)                    //une boucle qui parcours le tableau
+			{
+				if($messages[$i]['id'] != $_GET['del'])      // et tu supprime
+				{
+					$verifier[] = $messages[$i] ;
+				}
+			}
+			
+			$verifier = json_encode($verifier);                           //tu encode
+			file_put_contents('messages.json', $verifier) ;        //tu inject a nouveau mais sans le film supprimé
+			
+			header("location: message.php") ; 	//et tu reviens dans film list php (dans mon cas mon fichier s'appel juste message.php mais c'est egal a filmlist.php 
+	}
+
+ 
